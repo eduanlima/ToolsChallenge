@@ -1,4 +1,4 @@
-package com.eduanlima.tools_challenge_api.model;
+package com.eduanlima.tools_challenge_api.model.enums;
 
 public enum TipoFormaPagamento {
     AVISTA,

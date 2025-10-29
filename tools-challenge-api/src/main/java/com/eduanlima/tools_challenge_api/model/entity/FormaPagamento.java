@@ -1,4 +1,6 @@
-package com.eduanlima.tools_challenge_api.model;
+package com.eduanlima.tools_challenge_api.model.entity;
+
+import com.eduanlima.tools_challenge_api.model.enums.TipoFormaPagamento;
 
 import lombok.Data;
 

@@ -1,18 +1,30 @@
-package com.eduanlima.tools_challenge_api;
+package com.eduanlima.tools_challenge_api.model.entity;
 
-import com.eduanlima.tools_challenge_api.model.Pagamento;
-import com.eduanlima.tools_challenge_api.model.Transacao;
+import java.math.BigDecimal;
 
+import com.eduanlima.tools_challenge_api.model.base.Transacao;
+import com.eduanlima.tools_challenge_api.model.interfaces.OperacaoCredito;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
-public class Estorno extends Transacao {
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class Estorno extends Transacao implements OperacaoCredito {
 	private Pagamento pagamento;
 	
-	@Override
-	public void processar() {
-		// TODO Auto-generated method stub
-
+	public Estorno(Long id, Long cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
+		super(id, cartao, descricao, formaPagamento);
+		this.pagamento = pagamento;
 	}
 
+	@Override
+	public void adicionarValor(BigDecimal valor) {
+		// TODO Auto-generated method stub
+		
+	}	
 }

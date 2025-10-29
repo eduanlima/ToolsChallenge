@@ -1,7 +1,9 @@
-package com.eduanlima.tools_challenge_api.model;
+package com.eduanlima.tools_challenge_api.model.entity;
 
 import java.math.BigDecimal;
 import java.security.Timestamp;
+
+import com.eduanlima.tools_challenge_api.model.enums.StatusTransacao;
 
 import lombok.Data;
 
@@ -13,5 +15,4 @@ public class Descricao {
 	private Long nsu;
 	private Long codigoAutorizacao;
 	private StatusTransacao status;
-	private FormaPagamento formaPagamento;
 }
