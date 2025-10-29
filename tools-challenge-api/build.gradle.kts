@@ -10,8 +10,13 @@ description = "API for credit card transaction simulation."
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+        languageVersion.set(JavaLanguageVersion.of(17))
 	}
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
 }
 
 configurations {
