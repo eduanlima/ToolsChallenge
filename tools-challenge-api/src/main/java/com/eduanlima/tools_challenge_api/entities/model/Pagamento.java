@@ -8,8 +8,20 @@ import com.eduanlima.tools_challenge_api.entities.interfaces.OperacaoDebito;
 
 public class Pagamento extends Transacao implements OperacaoDebito {
    
-	public Pagamento(Long id, Long cartao, Descricao descricao, FormaPagamento formaPagamento) {
+	public Pagamento(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento) {
 		super(id, cartao, descricao, formaPagamento);
+	}
+	
+	@Override
+	public Integer gerarNsu(Integer ultimoNsu) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -29,5 +41,4 @@ public class Pagamento extends Transacao implements OperacaoDebito {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

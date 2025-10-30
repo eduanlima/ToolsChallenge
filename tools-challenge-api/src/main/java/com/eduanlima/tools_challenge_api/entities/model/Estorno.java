@@ -17,7 +17,19 @@ import lombok.ToString;
 public class Estorno extends Transacao implements OperacaoCredito {
 	private Pagamento pagamento;
 	
-	public Estorno(Long id, Long cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
+	@Override
+	public Integer gerarNsu(Integer ultimoNsu) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
+	public Estorno(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
 		super(id, cartao, descricao, formaPagamento);
 		this.pagamento = pagamento;
 	}
@@ -26,5 +38,5 @@ public class Estorno extends Transacao implements OperacaoCredito {
 	public void adicionarValor(BigDecimal valor) {
 		// TODO Auto-generated method stub
 		
-	}	
+	}
 }
