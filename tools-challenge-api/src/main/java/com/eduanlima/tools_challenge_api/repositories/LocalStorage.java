@@ -7,22 +7,53 @@ import java.util.List;
 import java.util.Map;
 
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
+import com.eduanlima.tools_challenge_api.entities.model.Descricao;
+import com.eduanlima.tools_challenge_api.entities.model.Estorno;
+import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 
 public class LocalStorage {
 	private static final Map<Long, Transacao> transacoes = new LinkedHashMap<>();
 	
-    public static void inserir(Transacao transacao) {
+    public static synchronized void inserir(Transacao transacao) {
         transacoes.put(transacao.getId(), transacao);
     }
     
-    public static Transacao buscarPorId(Long id) {
+    public static synchronized Transacao buscarPorId(Long id) {
         Transacao transacao = transacoes.get(id);
         return transacao;
     }
     
-    public static List<Transacao> listar() {
+    public static synchronized List<Transacao> listar() {
         List<Transacao> listaTransacao = new ArrayList<>(transacoes.values());
         Collections.reverse(listaTransacao);
         return listaTransacao;
+    }
+    
+    public static synchronized Descricao obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
+        if (transacao == null) 
+        	return new Descricao(0, 0);
+
+        List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
+        Collections.reverse(listaTransacoes);
+        Descricao descricao = null;
+
+        for (Transacao t : listaTransacoes) {
+        	descricao = new Descricao();
+        	
+            if (t instanceof Pagamento) {
+                Pagamento pagamento = (Pagamento) t;
+                descricao = pagamento.getDescricao();
+                
+                if (descricao != null && descricao.getNsu() != null) 
+                    return new Descricao(descricao.getNsu(), descricao.getCodigoAutorizacao());
+            } 
+            
+            Estorno estorno = (Estorno) t;
+            descricao = estorno.getDescricao();
+            if (descricao != null && descricao.getNsu() != null) 
+            	new Descricao(descricao.getNsu(), descricao.getCodigoAutorizacao());
+        }
+
+        return new Descricao(0, 0);
     }
 }

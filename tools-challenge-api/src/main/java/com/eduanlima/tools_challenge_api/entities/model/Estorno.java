@@ -17,17 +17,13 @@ import lombok.ToString;
 public class Estorno extends Transacao implements OperacaoCredito {
 	private Pagamento pagamento;
 	
-	@Override
 	public Integer gerarNsu(Integer ultimoNsu) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.gerarNsu(ultimoNsu);
 	}
 
-	@Override
 	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+		return super.gerarNsu(ultimoCodigoAutorizacao);
+	}
 	
 	public Estorno(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
 		super(id, cartao, descricao, formaPagamento);

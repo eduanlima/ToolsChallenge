@@ -33,7 +33,11 @@ public abstract class Transacao {
 			id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 	}
 	
-	public abstract Integer gerarNsu(Integer ultimoNsu);
+	public Integer gerarNsu(Integer ultimoNsu) {
+		return ultimoNsu + 1;
+	}
 	
-	public abstract Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao);
+	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
+		return ultimoCodigoAutorizacao + 1;
+	}
 }

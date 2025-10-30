@@ -34,8 +34,13 @@ public class Descricao {
 		capturarDataAtual();
 	}
 	
+	public Descricao(Integer nsu, Integer codigoAutorizacao) {
+		this.nsu = nsu;
+		this.codigoAutorizacao = codigoAutorizacao;
+	
+	}
+
 	private final void capturarDataAtual() {
 		if (datahora == null) 
 			datahora = Timestamp.valueOf(timeZoneAtual.toLocalDateTime());
-	}
-}
+	}}

@@ -12,16 +12,12 @@ public class Pagamento extends Transacao implements OperacaoDebito {
 		super(id, cartao, descricao, formaPagamento);
 	}
 	
-	@Override
 	public Integer gerarNsu(Integer ultimoNsu) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.gerarNsu(ultimoNsu);
 	}
 
-	@Override
 	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		// TODO Auto-generated method stub
-		return null;
+		return super.gerarNsu(ultimoCodigoAutorizacao);
 	}
 
 	@Override
