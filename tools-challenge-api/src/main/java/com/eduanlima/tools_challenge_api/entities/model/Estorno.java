@@ -1,9 +1,9 @@
-package com.eduanlima.tools_challenge_api.model.entity;
+package com.eduanlima.tools_challenge_api.entities.model;
 
 import java.math.BigDecimal;
 
-import com.eduanlima.tools_challenge_api.model.base.Transacao;
-import com.eduanlima.tools_challenge_api.model.interfaces.OperacaoCredito;
+import com.eduanlima.tools_challenge_api.entities.base.Transacao;
+import com.eduanlima.tools_challenge_api.entities.interfaces.OperacaoCredito;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

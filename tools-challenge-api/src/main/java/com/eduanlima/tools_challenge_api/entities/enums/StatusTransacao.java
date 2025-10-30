@@ -1,4 +1,4 @@
-package com.eduanlima.tools_challenge_api.model.enums;
+package com.eduanlima.tools_challenge_api.entities.enums;
 
 public enum StatusTransacao {
     AUTORIZADO,

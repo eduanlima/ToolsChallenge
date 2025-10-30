@@ -1,7 +1,7 @@
-package com.eduanlima.tools_challenge_api.model.base;
+package com.eduanlima.tools_challenge_api.entities.base;
 
-import com.eduanlima.tools_challenge_api.model.entity.Descricao;
-import com.eduanlima.tools_challenge_api.model.entity.FormaPagamento;
+import com.eduanlima.tools_challenge_api.entities.model.Descricao;
+import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

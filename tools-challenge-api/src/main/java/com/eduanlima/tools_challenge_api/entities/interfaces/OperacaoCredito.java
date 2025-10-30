@@ -1,4 +1,4 @@
-package com.eduanlima.tools_challenge_api.model.interfaces;
+package com.eduanlima.tools_challenge_api.entities.interfaces;
 
 import java.math.BigDecimal;
 
