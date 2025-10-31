@@ -6,18 +6,13 @@ import com.eduanlima.tools_challenge_api.entities.base.Transacao;
 import com.eduanlima.tools_challenge_api.entities.enums.TipoFormaPagamento;
 import com.eduanlima.tools_challenge_api.entities.interfaces.OperacaoDebito;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class Pagamento extends Transacao implements OperacaoDebito {
    
-	public Pagamento(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento) {
-		super(id, cartao, descricao, formaPagamento);
-	}
-	
-	public Integer gerarNsu(Integer ultimoNsu) {
-		return super.gerarNsu(ultimoNsu);
-	}
-
-	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		return super.gerarNsu(ultimoCodigoAutorizacao);
+	public Pagamento(String cartao, Descricao descricao, FormaPagamento formaPagamento) {
+		super(cartao, descricao, formaPagamento);
 	}
 
 	@Override

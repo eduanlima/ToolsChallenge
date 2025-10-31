@@ -17,16 +17,8 @@ import lombok.ToString;
 public class Estorno extends Transacao implements OperacaoCredito {
 	private Pagamento pagamento;
 	
-	public Integer gerarNsu(Integer ultimoNsu) {
-		return super.gerarNsu(ultimoNsu);
-	}
-
-	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		return super.gerarNsu(ultimoCodigoAutorizacao);
-	}
-	
-	public Estorno(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
-		super(id, cartao, descricao, formaPagamento);
+	public Estorno(String cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
+		super(cartao, descricao, formaPagamento);
 		this.pagamento = pagamento;
 	}
 

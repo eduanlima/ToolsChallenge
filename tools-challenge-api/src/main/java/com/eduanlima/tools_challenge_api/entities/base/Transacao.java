@@ -7,20 +7,21 @@ import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Transacao {
+	@Getter
 	@EqualsAndHashCode.Include
 	private Long id;
 	private String cartao;
 	private Descricao descricao;
 	private FormaPagamento formaPagamento;
 	
-	public Transacao(Long id, String cartao, Descricao descricao, FormaPagamento formaPagamento) {
-		this.id = id;
+	public Transacao(String cartao, Descricao descricao, FormaPagamento formaPagamento) {
 		this.cartao = cartao;
 		this.descricao = descricao;
 		this.formaPagamento = formaPagamento;
@@ -31,13 +32,5 @@ public abstract class Transacao {
 	private final void gerarId() {
 		if (id == null)
 			id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-	}
-	
-	public Integer gerarNsu(Integer ultimoNsu) {
-		return ultimoNsu + 1;
-	}
-	
-	public Integer gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		return ultimoCodigoAutorizacao + 1;
 	}
 }

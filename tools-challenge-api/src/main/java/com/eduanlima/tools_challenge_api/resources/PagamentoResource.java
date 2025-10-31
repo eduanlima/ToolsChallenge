@@ -31,9 +31,9 @@ public class PagamentoResource {
 		return null; //pagamentoService.buscarTodos();
 	} 
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<TransacaoFormulario> inserir(@PathVariable(required = false) Long id, @RequestBody TransacaoFormulario dto) {
-		//dto = pagamentoService.inserir(id, dto);
+	@PutMapping
+	public ResponseEntity<TransacaoFormulario> inserir(@RequestBody TransacaoFormulario dto) {
+		dto = pagamentoService.inserir(null, dto.getTransacao());
 		return ResponseEntity.ok(dto);
 	}
 }

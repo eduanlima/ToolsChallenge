@@ -14,8 +14,10 @@ import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 public class LocalStorage {
 	private static final Map<Long, Transacao> transacoes = new LinkedHashMap<>();
 	
-    public static synchronized void inserir(Transacao transacao) {
-        transacoes.put(transacao.getId(), transacao);
+    public static synchronized Transacao inserir(Long id, Transacao transacao) {
+    	transacoes.put(id != null ? id : transacao.getId(), transacao);
+    	System.out.println("Total of transactions: " + transacoes.size());
+        return transacao;
     }
     
     public static synchronized Transacao buscarPorId(Long id) {
@@ -29,31 +31,30 @@ public class LocalStorage {
         return listaTransacao;
     }
     
-    public static synchronized Descricao obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
-        if (transacao == null) 
-        	return new Descricao(0, 0);
-
+    public static synchronized int[] obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
+    	//Por padrão: [0] = nsu e [1] = codigoAutorizacao
         List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
         Collections.reverse(listaTransacoes);
-        Descricao descricao = null;
 
         for (Transacao t : listaTransacoes) {
-        	descricao = new Descricao();
+        	Descricao descricao = new Descricao();
         	
             if (t instanceof Pagamento) {
                 Pagamento pagamento = (Pagamento) t;
                 descricao = pagamento.getDescricao();
                 
                 if (descricao != null && descricao.getNsu() != null) 
-                    return new Descricao(descricao.getNsu(), descricao.getCodigoAutorizacao());
+                	return new int[] {descricao.getNsu(), descricao.getCodigoAutorizacao()};
             } 
             
-            Estorno estorno = (Estorno) t;
-            descricao = estorno.getDescricao();
-            if (descricao != null && descricao.getNsu() != null) 
-            	new Descricao(descricao.getNsu(), descricao.getCodigoAutorizacao());
+            if (t instanceof Estorno) {
+                Estorno estorno = (Estorno) t;
+                descricao = estorno.getDescricao();
+                if (descricao != null && descricao.getNsu() != null) 
+                	return new int[] {descricao.getNsu(), descricao.getCodigoAutorizacao()};
+            }
         }
 
-        return new Descricao(0, 0);
+        return new int[] {0, 0};
     }
 }
