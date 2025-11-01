@@ -26,8 +26,8 @@ public class PagamentoResource {
 		return ResponseEntity.ok(pagamentoService.listar());
 	} 
 	
-	@GetMapping(value = "/{id}") 
-	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable("id") Long id) {
+	@GetMapping("/{id}") 
+	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable String id) {
 		TransacaoFormulario transacao = pagamentoService.buscaPorId(id);
 		return ResponseEntity.ok(transacao);
 	} 

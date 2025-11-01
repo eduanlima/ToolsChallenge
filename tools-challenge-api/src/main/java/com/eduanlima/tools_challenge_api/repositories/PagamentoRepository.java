@@ -10,7 +10,7 @@ import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 @Repository
 public class PagamentoRepository {
 	
-	public Transacao buscarPorId(Long id){
+	public Transacao buscarPorId(String id){
 		return LocalStorage.buscarPorId(id);
 	}
 	
@@ -18,15 +18,15 @@ public class PagamentoRepository {
 		return LocalStorage.listar();
 	}
 	
-	public Transacao inserir(Long id, Transacao entidade) {
+	public Transacao inserir(String id, Transacao entidade) {
 		return LocalStorage.inserir(id, entidade);
 	}
 	
-	public int obterUltimoNsu(Pagamento pagamento) {
+	public String obterUltimoNsu(Pagamento pagamento) {
 		return LocalStorage.obterUltimoNsuCodigoAutorizacao(pagamento)[0];
 	}
 	
-	public int obterUltimoCodigoAutorizacao(Pagamento pagamento) {
+	public String obterUltimoCodigoAutorizacao(Pagamento pagamento) {
 		return LocalStorage.obterUltimoNsuCodigoAutorizacao(pagamento)[1];
 	}
 }

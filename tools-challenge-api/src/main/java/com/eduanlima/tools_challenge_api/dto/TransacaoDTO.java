@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransacaoDTO {
-	private Long id;
+	private String id;
 	private String cartao;
 	private DescricaoDTO descricao;
 	private FormaPagamentoDTO formaPagamento;

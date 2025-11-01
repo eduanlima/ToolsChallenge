@@ -1,6 +1,7 @@
 package com.eduanlima.tools_challenge_api.entities.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -15,19 +16,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Descricao {
 	private BigDecimal valor;
-	private Timestamp datahora;
+	private Timestamp dataHora;
 	private String estabelecimento;
 	@Getter
-	private Integer nsu;
+	private String nsu;
 	@Getter
-	private Integer codigoAutorizacao;
+	private String codigoAutorizacao;
 	private StatusTransacao status;
 
 	private final ZonedDateTime timeZoneAtual = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
 
-	public Descricao(BigDecimal valor, String estabelecimento, StatusTransacao status, int ultimoNsu,
-			int ultimoCodigoAutorizacao) {
-		this.valor = valor;
+	public Descricao(BigDecimal valor, String estabelecimento, StatusTransacao status, String ultimoNsu,
+			String ultimoCodigoAutorizacao) {
+		this.valor = valor.setScale(2, RoundingMode.HALF_UP);
 		this.estabelecimento = estabelecimento;
 		this.status = status;
 
@@ -37,20 +38,24 @@ public class Descricao {
 	}
 
 	private final void capturarDataAtual() {
-		datahora = Timestamp.valueOf(timeZoneAtual.toLocalDateTime());
+		dataHora = Timestamp.valueOf(timeZoneAtual.toLocalDateTime());
 	}
 
-	private final void gerarNsu(Integer ultimoNsu) {
-		if (ultimoNsu == 0)
-			nsu = 1000;
+	private final void gerarNsu(String ultimoNsu) {
+		int nsuNumerico = Integer.parseInt(ultimoNsu);
+		
+		if (nsuNumerico == 0)
+			nsu = String.valueOf(1000);
 		else
-			nsu = ultimoNsu + 1;
+			nsu = String.valueOf(nsuNumerico + 1);
 	}
 
-	public final void gerarCodigoAutorizacao(Integer ultimoCodigoAutorizacao) {
-		if (ultimoCodigoAutorizacao == 0)
-			codigoAutorizacao = 10000;
+	public final void gerarCodigoAutorizacao(String ultimoCodigoAutorizacao) {
+		int codigoAutorizacaoNumerico = Integer.parseInt(ultimoCodigoAutorizacao);
+		
+		if (codigoAutorizacaoNumerico == 0)
+			codigoAutorizacao = String.valueOf(10000);
 		else
-			codigoAutorizacao = ultimoCodigoAutorizacao + 1;
+			codigoAutorizacao = String.valueOf(codigoAutorizacaoNumerico + 1);
 	}
 }

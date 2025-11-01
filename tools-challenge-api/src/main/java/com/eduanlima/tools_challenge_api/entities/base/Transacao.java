@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public abstract class Transacao {
 	@Getter
 	@EqualsAndHashCode.Include
-	private Long id;
+	private String id;
 	private String cartao;
 	private Descricao descricao;
 	private FormaPagamento formaPagamento;
@@ -31,6 +31,6 @@ public abstract class Transacao {
 	
 	private final void gerarId() {
 		if (id == null)
-			id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+			id = String.valueOf(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 	}
 }

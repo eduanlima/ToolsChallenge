@@ -12,15 +12,15 @@ import com.eduanlima.tools_challenge_api.entities.model.Estorno;
 import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 
 public class LocalStorage {
-	private static final Map<Long, Transacao> transacoes = new LinkedHashMap<>();
+	private static final Map<String, Transacao> transacoes = new LinkedHashMap<>();
 	
-    public static synchronized Transacao inserir(Long id, Transacao transacao) {
+    public static synchronized Transacao inserir(String id, Transacao transacao) {
     	transacoes.put(id != null ? id : transacao.getId(), transacao);
     	System.out.println("Total of transactions: " + transacoes.size());
         return transacao;
     }
     
-    public static synchronized Transacao buscarPorId(Long id) {
+    public static synchronized Transacao buscarPorId(String id) {
         Transacao transacao = transacoes.get(id);
         return transacao;
     }
@@ -31,7 +31,7 @@ public class LocalStorage {
         return listaTransacao;
     }
     
-    public static synchronized int[] obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
+    public static synchronized String[] obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
     	//Por padrão: [0] = nsu e [1] = codigoAutorizacao
         List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
         Collections.reverse(listaTransacoes);
@@ -44,17 +44,17 @@ public class LocalStorage {
                 descricao = pagamento.getDescricao();
                 
                 if (descricao != null && descricao.getNsu() != null) 
-                	return new int[] {descricao.getNsu(), descricao.getCodigoAutorizacao()};
+                	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
             } 
             
             if (t instanceof Estorno) {
                 Estorno estorno = (Estorno) t;
                 descricao = estorno.getDescricao();
                 if (descricao != null && descricao.getNsu() != null) 
-                	return new int[] {descricao.getNsu(), descricao.getCodigoAutorizacao()};
+                	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
             }
         }
 
-        return new int[] {0, 0};
+        return new String[] {"0", "0"};
     }
 }
