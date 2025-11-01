@@ -50,6 +50,8 @@ public class EstornoService {
 		//Garantir integridade do dado
 		idPagamento = transacao.getId();
 		
+		//Aplicar devolução
+		
 		transacao = estornoRepository.inserir(converterDTO(idPagamento, dto));
 		
 		return new TransacaoFormulario(new TransacaoDTO((Estorno) transacao));
