@@ -17,7 +17,6 @@ import com.eduanlima.tools_challenge_api.services.PagamentoService;
 @RestController
 @RequestMapping(value = "/pagamento")
 public class PagamentoResource {
-	
 	@Autowired
 	private PagamentoService pagamentoService;
 	
@@ -34,7 +33,7 @@ public class PagamentoResource {
 	
 	@PutMapping
 	public ResponseEntity<TransacaoFormulario> inserir(@RequestBody TransacaoFormulario dto) {
-		dto = pagamentoService.inserir(null, dto.getTransacao());
+		dto = pagamentoService.inserir(dto.getTransacao());
 		return ResponseEntity.ok(dto);
 	}
 }

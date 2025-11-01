@@ -8,18 +8,20 @@ import com.eduanlima.tools_challenge_api.entities.interfaces.OperacaoCredito;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Estorno extends Transacao implements OperacaoCredito {
-	private Pagamento pagamento;
+	private String idPagamento;
 	
-	public Estorno(String cartao, Descricao descricao, FormaPagamento formaPagamento, Pagamento pagamento) {
-		super(cartao, descricao, formaPagamento);
-		this.pagamento = pagamento;
+	public Estorno(String id, String cartao, Descricao descricao, FormaPagamento formaPagamento, String idPagamento) {
+		super(id, cartao, descricao, formaPagamento);
+		this.idPagamento = idPagamento;
 	}
 
 	@Override

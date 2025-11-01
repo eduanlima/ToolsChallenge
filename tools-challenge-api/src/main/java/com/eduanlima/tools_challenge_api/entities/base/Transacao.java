@@ -1,7 +1,5 @@
 package com.eduanlima.tools_challenge_api.entities.base;
 
-import java.util.UUID;
-
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 
@@ -21,16 +19,11 @@ public abstract class Transacao {
 	private Descricao descricao;
 	private FormaPagamento formaPagamento;
 	
-	public Transacao(String cartao, Descricao descricao, FormaPagamento formaPagamento) {
+	public Transacao(String id, String cartao, Descricao descricao, FormaPagamento formaPagamento) {
+		this.id = id;
 		this.cartao = cartao;
 		this.descricao = descricao;
 		this.formaPagamento = formaPagamento;
-		
-		gerarId();
 	}
 	
-	private final void gerarId() {
-		if (id == null)
-			id = String.valueOf(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-	}
 }

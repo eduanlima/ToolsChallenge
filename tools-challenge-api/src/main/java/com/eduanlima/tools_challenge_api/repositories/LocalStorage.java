@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
@@ -14,24 +15,30 @@ import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 public class LocalStorage {
 	private static final Map<String, Transacao> transacoes = new LinkedHashMap<>();
 	
-    public static synchronized Transacao inserir(String id, Transacao transacao) {
-    	transacoes.put(id != null ? id : transacao.getId(), transacao);
+    public static synchronized Transacao inserir(Transacao transacao) {
+    	transacoes.put(transacao.getId(), transacao);
     	System.out.println("Total of transactions: " + transacoes.size());
         return transacao;
     }
     
-    public static synchronized Transacao buscarPorId(String id) {
+    public static synchronized <T extends Transacao> T buscarPorId(String id, Class<T> tipoTransacao) {
         Transacao transacao = transacoes.get(id);
-        return transacao;
+        
+        if (tipoTransacao.isInstance(transacao))
+        	return tipoTransacao.cast(transacao);
+        
+        return null;
     }
     
-    public static synchronized List<Transacao> listar() {
-        List<Transacao> listaTransacao = new ArrayList<>(transacoes.values());
-        Collections.reverse(listaTransacao);
-        return listaTransacao;
+    public static synchronized <T extends Transacao> List<T> listar(Class<T> tipoTransacao) {
+        return transacoes.values().stream().filter(tipoTransacao::isInstance)
+                .map(tipoTransacao::cast).collect(
+                		Collectors.collectingAndThen(Collectors.toList(),
+                        lista -> { Collections.reverse(lista); return lista; }
+                ));
     }
     
-    public static synchronized String[] obterUltimoNsuCodigoAutorizacao(Transacao transacao) {
+    public static synchronized <T extends Transacao> String[] obterUltimoNsuCodigoAutorizacao(Class<T> tipoTransacao) {
     	//Por padrão: [0] = nsu e [1] = codigoAutorizacao
         List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
         Collections.reverse(listaTransacoes);
@@ -39,7 +46,7 @@ public class LocalStorage {
         for (Transacao t : listaTransacoes) {
         	Descricao descricao = new Descricao();
         	
-            if (t instanceof Pagamento) {
+            if (t instanceof Pagamento && tipoTransacao.isInstance(Pagamento.class)) {
                 Pagamento pagamento = (Pagamento) t;
                 descricao = pagamento.getDescricao();
                 
@@ -47,9 +54,10 @@ public class LocalStorage {
                 	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
             } 
             
-            if (t instanceof Estorno) {
+            if (t instanceof Estorno && tipoTransacao.isInstance(Estorno.class)) {
                 Estorno estorno = (Estorno) t;
                 descricao = estorno.getDescricao();
+                
                 if (descricao != null && descricao.getNsu() != null) 
                 	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
             }

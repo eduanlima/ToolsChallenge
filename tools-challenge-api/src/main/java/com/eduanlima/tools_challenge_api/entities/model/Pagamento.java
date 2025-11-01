@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class Pagamento extends Transacao implements OperacaoDebito {
-   
-	public Pagamento(String cartao, Descricao descricao, FormaPagamento formaPagamento) {
-		super(cartao, descricao, formaPagamento);
+	public Pagamento(String id, String cartao, Descricao descricao, FormaPagamento formaPagamento) {
+		super(id, cartao, descricao, formaPagamento);
 	}
 
 	@Override
