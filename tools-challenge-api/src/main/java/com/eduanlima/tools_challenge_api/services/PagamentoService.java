@@ -1,5 +1,7 @@
 package com.eduanlima.tools_challenge_api.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,19 @@ public class PagamentoService {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	public TransacaoFormulario buscaPorId(Long id){
+		Transacao entidade = pagamentoRepository.buscarPorId(id);
+		return new TransacaoFormulario(new TransacaoDTO((Pagamento) entidade));
+	}
+	
+	public List<TransacaoFormulario> listar() {
+		List<Transacao> lista = pagamentoRepository.listar();
+	
+		return lista.stream()
+			.map(transacao -> new TransacaoFormulario(new TransacaoDTO((Pagamento) transacao)))
+			.toList();
+	}
 	
 	public TransacaoFormulario inserir(Long id, TransacaoDTO dto) {
 		Transacao entidade = pagamentoRepository.inserir(id, converterDTO(dto));

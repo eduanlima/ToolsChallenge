@@ -21,14 +21,15 @@ public class PagamentoResource {
 	@Autowired
 	private PagamentoService pagamentoService;
 	
-	@GetMapping(value = "/{id}") 
-	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable Long id) {
-		return null; //pagamentoService.buscarPorId(id);
+	@GetMapping
+	public ResponseEntity<List<TransacaoFormulario>> listar() {
+		return ResponseEntity.ok(pagamentoService.listar());
 	} 
 	
-	@GetMapping
-	public ResponseEntity<List<TransacaoFormulario>> buscarTodos(@PathVariable Long id) {
-		return null; //pagamentoService.buscarTodos();
+	@GetMapping(value = "/{id}") 
+	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable("id") Long id) {
+		TransacaoFormulario transacao = pagamentoService.buscaPorId(id);
+		return ResponseEntity.ok(transacao);
 	} 
 	
 	@PutMapping
