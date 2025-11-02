@@ -1,6 +1,5 @@
 package com.eduanlima.tools_challenge_api.services;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.eduanlima.tools_challenge_api.dto.TransacaoDTO;
 import com.eduanlima.tools_challenge_api.dto.TransacaoFormulario;
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
-import com.eduanlima.tools_challenge_api.entities.enums.StatusTransacao;
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.Estorno;
 import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;

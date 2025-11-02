@@ -10,14 +10,12 @@ import java.util.stream.Collectors;
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.Estorno;
-import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 
 public class LocalStorage {
 	private static final Map<String, Transacao> transacoes = new LinkedHashMap<>();
 
 	public static synchronized Transacao inserir(Transacao transacao) {
 		transacoes.put(transacao.getId(), transacao);
-		System.out.println("Total of transactions: " + transacoes.size());
 		return transacao;
 	}
 
@@ -51,18 +49,8 @@ public class LocalStorage {
 		for (Transacao t : listaTransacoes) {
 			Descricao descricao = new Descricao();
 
-			if (t instanceof Pagamento && tipoTransacao.isInstance(Pagamento.class)) {
-				Pagamento pagamento = (Pagamento) t;
-				descricao = pagamento.getDescricao();
-
-				if (descricao != null && descricao.getNsu() != null)
-					return new String[] { String.valueOf(descricao.getNsu()),
-							String.valueOf(descricao.getCodigoAutorizacao()) };
-			}
-
-			if (t instanceof Estorno && tipoTransacao.isInstance(Estorno.class)) {
-				Estorno estorno = (Estorno) t;
-				descricao = estorno.getDescricao();
+			if (tipoTransacao.isInstance(t)) {
+				descricao = t.getDescricao();
 
 				if (descricao != null && descricao.getNsu() != null)
 					return new String[] { String.valueOf(descricao.getNsu()),

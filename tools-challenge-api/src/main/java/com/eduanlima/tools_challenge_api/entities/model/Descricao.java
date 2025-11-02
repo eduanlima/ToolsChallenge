@@ -18,9 +18,7 @@ public class Descricao {
 	private BigDecimal valor;
 	private Timestamp dataHora;
 	private String estabelecimento;
-	@Getter
 	private String nsu;
-	@Getter
 	private String codigoAutorizacao;
 	private StatusTransacao status;
 
