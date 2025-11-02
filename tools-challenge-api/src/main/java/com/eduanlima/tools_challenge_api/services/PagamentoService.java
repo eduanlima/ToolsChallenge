@@ -9,15 +9,20 @@ import org.springframework.stereotype.Service;
 import com.eduanlima.tools_challenge_api.dto.TransacaoDTO;
 import com.eduanlima.tools_challenge_api.dto.TransacaoFormulario;
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
+import com.eduanlima.tools_challenge_api.entities.enums.StatusTransacao;
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 import com.eduanlima.tools_challenge_api.repositories.PagamentoRepository;
+import com.eduanlima.tools_challenge_api.utils.SimuladorCartaoCredito;
 
 @Service
 public class PagamentoService {
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	//Cálculo juros com taxa de 10% ao mês
+	private final static BigDecimal TAXA_JUROS = new BigDecimal("0.1");
 	
 	public TransacaoFormulario buscaPorId(String id){
 		Transacao pagamento = pagamentoRepository.buscarPorId(id);
@@ -37,13 +42,20 @@ public class PagamentoService {
 		
 		if (transacao != null)
 			return new TransacaoFormulario(new TransacaoDTO((Pagamento) transacao));
+	
+		Pagamento pagamento = converterDTO(dto);
+		BigDecimal limiteDisponivelCartao = SimuladorCartaoCredito.consultarValor(pagamento.getCartao());
+		pagamento.processarPagamento(limiteDisponivelCartao, TAXA_JUROS);
 		
-		transacao = pagamentoRepository.inserir(converterDTO(dto, null));
+		transacao = pagamentoRepository.inserir(pagamento);
 		
+		if (transacao.getDescricao().getStatus().equals(StatusTransacao.AUTORIZADO))
+			SimuladorCartaoCredito.subtrairValor(transacao.getCartao(), transacao.getDescricao().getValor());
+
 		return new TransacaoFormulario(new TransacaoDTO((Pagamento) transacao));
 	}
 
-	private Pagamento converterDTO(TransacaoDTO dto, BigDecimal taxaJuros) {		
+	private Pagamento converterDTO(TransacaoDTO dto) {		
 		Descricao descricao = new Descricao(new BigDecimal(dto.getDescricao().getValor()), dto.getDescricao().getEstabelecimento(),
 				dto.getDescricao().getStatus(), pagamentoRepository.obterUltimoNsu(),
 				pagamentoRepository.obterUltimoCodigoAutorizacao());
@@ -51,6 +63,6 @@ public class PagamentoService {
 		FormaPagamento formaPagamento = new FormaPagamento(dto.getFormaPagamento().getTipo(),
 				dto.getFormaPagamento().getParcelas());
 
-		return new Pagamento(dto.getId(), dto.getCartao(), descricao, formaPagamento, null);
+		return new Pagamento(dto.getId(), dto.getCartao(), descricao, formaPagamento);
 	}
 }

@@ -20,11 +20,45 @@ public class SimuladorCartaoCredito {
 		}
 	}
 	
-	public void adicionarValor() {
-		
+	public static void adicionarValor(String numeroCartao, BigDecimal valor) {
+		if (cartoes.containsKey(numeroCartao)) {
+			BigDecimal saldoAtual = cartoes.get(numeroCartao);
+			BigDecimal novoSaldo = saldoAtual.add(valor);
+
+			cartoes.put(numeroCartao, novoSaldo);
+		} else {
+			throw new IllegalArgumentException("Cartão não encontrado: " + numeroCartao);
+		}
+
+		exibirSaldos();
+
 	}
 	
-	public void subtrairValor() {
-		
+	public static void subtrairValor(String numeroCartao, BigDecimal valor) {
+		if (cartoes.containsKey(numeroCartao)) {
+			BigDecimal saldoAtual = cartoes.get(numeroCartao);
+			BigDecimal novoSaldo = saldoAtual.subtract(valor);
+	
+			if (novoSaldo.compareTo(BigDecimal.ZERO) < 0) {
+				throw new IllegalArgumentException("Saldo insuficiente para o cartão: " + numeroCartao);
+			}
+	
+			cartoes.put(numeroCartao, novoSaldo);
+		} else {
+			throw new IllegalArgumentException("Cartão não encontrado: " + numeroCartao);
+		}
+
+		exibirSaldos();
+
+	}
+
+	public static BigDecimal consultarValor(String numeroCartao) {
+		return cartoes.get(numeroCartao);
+	}
+
+	private static final void exibirSaldos(){
+		for (Map.Entry<String, BigDecimal> entry : cartoes.entrySet()) {
+		    System.out.println("Cartão: " + entry.getKey() + " | Valor: " + entry.getValue());
+		}
 	}
 }
