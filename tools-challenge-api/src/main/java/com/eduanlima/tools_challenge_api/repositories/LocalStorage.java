@@ -14,55 +14,62 @@ import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 
 public class LocalStorage {
 	private static final Map<String, Transacao> transacoes = new LinkedHashMap<>();
-	
-    public static synchronized Transacao inserir(Transacao transacao) {
-    	transacoes.put(transacao.getId(), transacao);
-    	System.out.println("Total of transactions: " + transacoes.size());
-        return transacao;
-    }
-    
-    public static synchronized <T extends Transacao> T buscarPorId(String id, Class<T> tipoTransacao) {
-        Transacao transacao = transacoes.get(id);
-        
-        if (tipoTransacao.isInstance(transacao))
-        	return tipoTransacao.cast(transacao);
-        
-        return null;
-    }
-    
-    public static synchronized <T extends Transacao> List<T> listar(Class<T> tipoTransacao) {
-        return transacoes.values().stream().filter(tipoTransacao::isInstance)
-                .map(tipoTransacao::cast).collect(
-                		Collectors.collectingAndThen(Collectors.toList(),
-                        lista -> { Collections.reverse(lista); return lista; }
-                ));
-    }
-    
-    public static synchronized <T extends Transacao> String[] obterUltimoNsuCodigoAutorizacao(Class<T> tipoTransacao) {
-    	//Por padrão: [0] = nsu e [1] = codigoAutorizacao
-        List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
-        Collections.reverse(listaTransacoes);
 
-        for (Transacao t : listaTransacoes) {
-        	Descricao descricao = new Descricao();
-        	
-            if (t instanceof Pagamento && tipoTransacao.isInstance(Pagamento.class)) {
-                Pagamento pagamento = (Pagamento) t;
-                descricao = pagamento.getDescricao();
-                
-                if (descricao != null && descricao.getNsu() != null) 
-                	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
-            } 
-            
-            if (t instanceof Estorno && tipoTransacao.isInstance(Estorno.class)) {
-                Estorno estorno = (Estorno) t;
-                descricao = estorno.getDescricao();
-                
-                if (descricao != null && descricao.getNsu() != null) 
-                	return new String[] {String.valueOf(descricao.getNsu()), String.valueOf(descricao.getCodigoAutorizacao())};
-            }
-        }
+	public static synchronized Transacao inserir(Transacao transacao) {
+		transacoes.put(transacao.getId(), transacao);
+		System.out.println("Total of transactions: " + transacoes.size());
+		return transacao;
+	}
 
-        return new String[] {"0", "0"};
-    }
+	public static synchronized <T extends Transacao> T buscarPorId(String id, Class<T> tipoTransacao) {
+		Transacao transacao = transacoes.get(id);
+
+		if (tipoTransacao.isInstance(transacao))
+			return tipoTransacao.cast(transacao);
+
+		return null;
+	}
+
+	public static synchronized <T extends Transacao> List<T> listar(Class<T> tipoTransacao) {
+		return transacoes.values().stream().filter(tipoTransacao::isInstance).map(tipoTransacao::cast)
+				.collect(Collectors.collectingAndThen(Collectors.toList(), lista -> {
+					Collections.reverse(lista);
+					return lista;
+				}));
+	}
+
+	public static synchronized Estorno buscarEstornoPorIdPagamento(String idPagamento) {
+		return transacoes.values().stream().filter(Estorno.class::isInstance).map(Estorno.class::cast)
+				.filter(e -> idPagamento.equals(e.getIdPagamento())).findFirst().orElse(null);
+	}
+
+	public static synchronized <T extends Transacao> String[] obterUltimoNsuCodigoAutorizacao(Class<T> tipoTransacao) {
+		// Por padrão: [0] = nsu e [1] = codigoAutorizacao
+		List<Transacao> listaTransacoes = new ArrayList<>(transacoes.values());
+		Collections.reverse(listaTransacoes);
+
+		for (Transacao t : listaTransacoes) {
+			Descricao descricao = new Descricao();
+
+			if (t instanceof Pagamento && tipoTransacao.isInstance(Pagamento.class)) {
+				Pagamento pagamento = (Pagamento) t;
+				descricao = pagamento.getDescricao();
+
+				if (descricao != null && descricao.getNsu() != null)
+					return new String[] { String.valueOf(descricao.getNsu()),
+							String.valueOf(descricao.getCodigoAutorizacao()) };
+			}
+
+			if (t instanceof Estorno && tipoTransacao.isInstance(Estorno.class)) {
+				Estorno estorno = (Estorno) t;
+				descricao = estorno.getDescricao();
+
+				if (descricao != null && descricao.getNsu() != null)
+					return new String[] { String.valueOf(descricao.getNsu()),
+							String.valueOf(descricao.getCodigoAutorizacao()) };
+			}
+		}
+
+		return new String[] { "0", "0" };
+	}
 }

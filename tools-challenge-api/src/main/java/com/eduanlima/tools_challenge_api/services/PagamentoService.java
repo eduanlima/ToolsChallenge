@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.eduanlima.tools_challenge_api.dto.TransacaoDTO;
 import com.eduanlima.tools_challenge_api.dto.TransacaoFormulario;
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
-import com.eduanlima.tools_challenge_api.entities.enums.StatusTransacao;
 import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
@@ -46,13 +45,11 @@ public class PagamentoService {
 		Pagamento pagamento = converterDTO(dto);
 		BigDecimal limiteDisponivelCartao = SimuladorCartaoCredito.consultarValor(pagamento.getCartao());
 		pagamento.processarPagamento(limiteDisponivelCartao, TAXA_JUROS);
+		pagamento = pagamentoRepository.inserir(pagamento);
 		
-		transacao = pagamentoRepository.inserir(pagamento);
-		
-		if (transacao.getDescricao().getStatus().equals(StatusTransacao.AUTORIZADO))
-			SimuladorCartaoCredito.subtrairValor(transacao.getCartao(), transacao.getDescricao().getValor());
+		SimuladorCartaoCredito.subtrairValor(pagamento.getCartao(), pagamento.valorDebitar());
 
-		return new TransacaoFormulario(new TransacaoDTO((Pagamento) transacao));
+		return new TransacaoFormulario(new TransacaoDTO(pagamento));
 	}
 
 	private Pagamento converterDTO(TransacaoDTO dto) {		

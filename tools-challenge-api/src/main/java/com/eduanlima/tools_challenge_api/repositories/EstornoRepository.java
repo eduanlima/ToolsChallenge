@@ -10,7 +10,11 @@ import com.eduanlima.tools_challenge_api.entities.model.Estorno;
 
 @Repository
 public class EstornoRepository {
-	public Transacao buscarPorId(String id) {
+	public Estorno buscarEstornoPorIdPagamento(String idPagamento) {
+		return LocalStorage.buscarEstornoPorIdPagamento(idPagamento);
+	}
+	
+	public Estorno buscarPorId(String id) {
 		return LocalStorage.buscarPorId(id, Estorno.class);
 	}
 
@@ -19,8 +23,8 @@ public class EstornoRepository {
 				.collect(Collectors.toList());
 	}
 
-	public Transacao inserir(Transacao entidade) {
-		return LocalStorage.inserir(entidade);
+	public Estorno inserir(Transacao entidade) {
+		return (Estorno) LocalStorage.inserir(entidade);
 	}
 
 	public String obterUltimoNsu() {

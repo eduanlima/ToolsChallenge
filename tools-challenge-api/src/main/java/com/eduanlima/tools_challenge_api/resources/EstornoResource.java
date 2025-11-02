@@ -15,7 +15,7 @@ import com.eduanlima.tools_challenge_api.dto.TransacaoFormulario;
 import com.eduanlima.tools_challenge_api.services.EstornoService;
 
 @RestController
-@RequestMapping(value = "/estorno")
+@RequestMapping("/estorno")
 public class EstornoResource {
 	@Autowired
 	private EstornoService estornoService;
@@ -27,13 +27,11 @@ public class EstornoResource {
 	
 	@GetMapping("/{id}") 
 	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable String id) {
-		TransacaoFormulario transacao = estornoService.buscaPorId(id);
-		return ResponseEntity.ok(transacao);
+		return ResponseEntity.ok(estornoService.buscaPorId(id));
 	} 
 	
 	@PutMapping("/{idPagamento}")
-	public ResponseEntity<TransacaoFormulario> inserir(@PathVariable String idPagamento, @RequestBody TransacaoFormulario dto) {
-		dto = estornoService.inserir(idPagamento, dto.getTransacao());
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<TransacaoFormulario> inserir(@PathVariable String idPagamento) {
+		return ResponseEntity.ok(estornoService.inserir(idPagamento));
 	}
 }

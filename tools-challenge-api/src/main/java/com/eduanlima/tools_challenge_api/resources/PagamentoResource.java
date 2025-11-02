@@ -27,13 +27,11 @@ public class PagamentoResource {
 	
 	@GetMapping("/{id}") 
 	public ResponseEntity<TransacaoFormulario> buscarPorId(@PathVariable String id) {
-		TransacaoFormulario transacao = pagamentoService.buscaPorId(id);
-		return ResponseEntity.ok(transacao);
+		return ResponseEntity.ok(pagamentoService.buscaPorId(id));
 	} 
 	
 	@PutMapping
 	public ResponseEntity<TransacaoFormulario> inserir(@RequestBody TransacaoFormulario dto) {
-		dto = pagamentoService.inserir(dto.getTransacao());
-		return ResponseEntity.ok(dto);
+		return ResponseEntity.ok(pagamentoService.inserir(dto.getTransacao()));
 	}
 }

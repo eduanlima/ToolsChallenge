@@ -36,6 +36,16 @@ public class Descricao {
 		gerarNsu(ultimoNsu);
 		gerarCodigoAutorizacao(ultimoCodigoAutorizacao);
 	}
+	
+	public Descricao(BigDecimal valor, String estabelecimento, String ultimoNsu,
+			String ultimoCodigoAutorizacao) {
+		this.valor = valor.setScale(2, RoundingMode.HALF_UP);
+		this.estabelecimento = estabelecimento;
+		
+		capturarDataAtual();
+		gerarNsu(ultimoNsu);
+		gerarCodigoAutorizacao(ultimoCodigoAutorizacao);
+	}
 
 	private final void capturarDataAtual() {
 		dataHora = Timestamp.valueOf(timeZoneAtual.toLocalDateTime());

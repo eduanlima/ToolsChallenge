@@ -22,6 +22,13 @@ public class Pagamento extends Transacao {
 		return limiteDisponivelCartao.compareTo(this.getDescricao().getValor()) >= 0;
 	}
 	
+	public BigDecimal valorDebitar() {
+		if (this.getDescricao().getStatus().equals(StatusTransacao.NEGADO))
+			return new BigDecimal("0");
+			
+		return this.getDescricao().getValor();
+	}
+	
 	public void processarPagamento(BigDecimal limiteDisponivelCartao, BigDecimal taxaJuros) {
 		Descricao descricao = this.getDescricao();
 		int parcelas = this.getFormaPagamento().getParcelas();

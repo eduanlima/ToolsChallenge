@@ -26,4 +26,9 @@ public abstract class Transacao {
 		this.formaPagamento = formaPagamento;
 	}
 	
+	public Transacao(String cartao, Descricao descricao, FormaPagamento formaPagamento) {
+		this.cartao = cartao;
+		this.descricao = descricao;
+		this.formaPagamento = formaPagamento;
+	}
 }
