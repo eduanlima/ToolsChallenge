@@ -19,7 +19,7 @@ API para simulação de operações com cartão de crédito.
 ✅ Solicitar um novo pagamento;
 ✅ Consultar todos os pagamentos ou estornos;
 ✅ Buscar transação por ID;
-✅ Solicitar estorno de um pagamento;
+✅ Solicitar estorno de um pagamento.
 
 
 ##  Estrutura dos Endpoints
@@ -108,6 +108,8 @@ Optou-se também por manter o sigilo dos números de cartão de crédito ainda n
 | `AVISTA`            | Pagamento à vista                |
 | `PARCELADO_LOJA`    | Parcelamento feito pela loja     |
 | `PARCELADO_EMISSOR` | Parcelamento feito pelo emissor  |
+
+Para simular a aplicação de juros sobre o valor do débito, foi utilizada uma `taxa fixa de 10%` ao mês nos pagamentos do tipo `PARCELADO_EMISSOR`. Em um cenário real, esta taxa deveria ser informada como um parâmetro de entrada, por exemplo; contudo, o objetivo desta função é apenas reproduzir o comportamento de forma simulada.
 
 ##  Estrutura do projeto
 
