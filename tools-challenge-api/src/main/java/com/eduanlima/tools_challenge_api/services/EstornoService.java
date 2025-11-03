@@ -14,6 +14,7 @@ import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 import com.eduanlima.tools_challenge_api.repositories.EstornoRepository;
 import com.eduanlima.tools_challenge_api.repositories.PagamentoRepository;
+import com.eduanlima.tools_challenge_api.services.exceptions.RecursoNaoEncontrado;
 import com.eduanlima.tools_challenge_api.utils.SimuladorCartaoCredito;
 
 @Service
@@ -26,6 +27,9 @@ public class EstornoService {
 
 	public TransacaoFormulario buscaPorId(String id) {
 		Transacao estorno = estornoRepository.buscarPorId(id);
+		if (estorno == null)
+			throw new RecursoNaoEncontrado("Estorno não encontrado.");
+		
 		return new TransacaoFormulario(new TransacaoDTO((Estorno) estorno));
 	}
 
@@ -41,7 +45,7 @@ public class EstornoService {
 		Pagamento pagamento = pagamentoRepository.buscarPorId(idPagamento);
 		
 		if (pagamento == null)
-			return null; //Não autorizado
+			throw new RecursoNaoEncontrado("Pagamento não encontrado.");
 		
 		Estorno estorno = estornoRepository.buscarEstornoPorIdPagamento(pagamento.getId());
 		

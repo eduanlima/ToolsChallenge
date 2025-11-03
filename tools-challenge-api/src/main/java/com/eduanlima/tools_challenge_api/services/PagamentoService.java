@@ -13,6 +13,7 @@ import com.eduanlima.tools_challenge_api.entities.model.Descricao;
 import com.eduanlima.tools_challenge_api.entities.model.FormaPagamento;
 import com.eduanlima.tools_challenge_api.entities.model.Pagamento;
 import com.eduanlima.tools_challenge_api.repositories.PagamentoRepository;
+import com.eduanlima.tools_challenge_api.services.exceptions.RecursoNaoEncontrado;
 import com.eduanlima.tools_challenge_api.utils.SimuladorCartaoCredito;
 
 @Service
@@ -25,6 +26,9 @@ public class PagamentoService {
 	
 	public TransacaoFormulario buscaPorId(String id){
 		Transacao pagamento = pagamentoRepository.buscarPorId(id);
+		if (pagamento == null)
+			throw new RecursoNaoEncontrado("Pagamento não encontrado.");
+			
 		return new TransacaoFormulario(new TransacaoDTO((Pagamento) pagamento));
 	}
 	

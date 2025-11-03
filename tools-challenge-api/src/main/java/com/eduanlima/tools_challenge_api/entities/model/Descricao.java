@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import com.eduanlima.tools_challenge_api.entities.enums.StatusTransacao;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data

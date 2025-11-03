@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.eduanlima.tools_challenge_api.utils.exceptions.CartaoNaoEncontrado;
 
 public class SimuladorCartaoCredito {
 	private static final Map<String, BigDecimal> cartoes = new LinkedHashMap<>();
@@ -20,39 +21,31 @@ public class SimuladorCartaoCredito {
 		}
 	}
 	
-	public static void adicionarValor(String numeroCartao, BigDecimal valor) {
-		if (cartoes.containsKey(numeroCartao)) {
-			BigDecimal saldoAtual = cartoes.get(numeroCartao);
-			BigDecimal novoSaldo = saldoAtual.add(valor);
+	public static void adicionarValor(String numeroCartao, BigDecimal valor) {		
+		BigDecimal saldoAtual = cartoes.get(numeroCartao);
+		BigDecimal novoSaldo = saldoAtual.add(valor);
 
-			cartoes.put(numeroCartao, novoSaldo);
-		} else {
-			throw new IllegalArgumentException("Cartão não encontrado: " + numeroCartao);
-		}
+		cartoes.put(numeroCartao, novoSaldo);
 
 		exibirSaldos();
-
 	}
 	
-	public static void subtrairValor(String numeroCartao, BigDecimal valor) {
-		if (cartoes.containsKey(numeroCartao)) {
-			BigDecimal saldoAtual = cartoes.get(numeroCartao);
-			BigDecimal novoSaldo = saldoAtual.subtract(valor);
-	
-			if (novoSaldo.compareTo(BigDecimal.ZERO) < 0) {
-				throw new IllegalArgumentException("Saldo insuficiente para o cartão: " + numeroCartao);
-			}
-	
-			cartoes.put(numeroCartao, novoSaldo);
-		} else {
-			throw new IllegalArgumentException("Cartão não encontrado: " + numeroCartao);
+	public static void subtrairValor(String numeroCartao, BigDecimal valor) {		
+		BigDecimal saldoAtual = cartoes.get(numeroCartao);
+		BigDecimal novoSaldo = saldoAtual.subtract(valor);
+
+		if (novoSaldo.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("Saldo insuficiente para o cartão: " + numeroCartao);
 		}
 
+		cartoes.put(numeroCartao, novoSaldo);
 		exibirSaldos();
-
 	}
 
 	public static BigDecimal consultarValor(String numeroCartao) {
+		if (!cartoes.containsKey(numeroCartao))
+			throw new CartaoNaoEncontrado("Número do cartão é inválido.");
+		
 		return cartoes.get(numeroCartao);
 	}
 

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.eduanlima.tools_challenge_api.entities.base.Transacao;
 import com.eduanlima.tools_challenge_api.entities.enums.StatusTransacao;
 import com.eduanlima.tools_challenge_api.entities.enums.TipoFormaPagamento;
+import com.eduanlima.tools_challenge_api.services.exceptions.ValorInvalido;
 
 import lombok.NoArgsConstructor;
 
@@ -34,7 +35,7 @@ public class Pagamento extends Transacao {
 		int parcelas = this.getFormaPagamento().getParcelas();
 		
 		if (!validarValor()) 
-			System.out.println("Lançar exceção");
+			throw new ValorInvalido("O valor informado é inválido.");
 		
 		if (this.getFormaPagamento().getTipo().equals(TipoFormaPagamento.PARCELADO_EMISSOR) && parcelas > 1) {
 			BigDecimal valorAPagar = descricao.getValor();
